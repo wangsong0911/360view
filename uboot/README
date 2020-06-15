@@ -6402,3 +6402,17 @@ Notes:
   u-boot mailing list. Bigger patches will be moderated. If they are
   reasonable and not too big, they will be acknowledged. But patches
   bigger than the size limit should be avoided.
+
+ ARM: DRA7: Temp: Update GPU frequency to 532Mhz
+
+ * Setting the H14 DIVIDER to 4 to increase the SGX frequency
+   to 532Mhz
+ * Set the Voltage to 1.25 as per DM recommendation.
+
+This patch sets SGX to OPP_HIGH - right place to handle this would
+be in the SGX kernel driver. This change in uboot assumes that
+Si part can support OPP_HIGH(consult data manual) and that the
+SGX Power rail is not ganged with other power domains
+
+Revert this patch once the SGX driver in kernel is modified to 
+take care of this.
