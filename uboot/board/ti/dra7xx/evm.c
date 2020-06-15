@@ -30,6 +30,7 @@
 #include <remoteproc.h>
 
 #include "mux_data.h"
+#include "dra7xx_cpu.h"
 
 #ifdef CONFIG_DRIVER_TI_CPSW
 #include <cpsw.h>
@@ -39,6 +40,9 @@ DECLARE_GLOBAL_DATA_PTR;
 
 /* GPIO 7_11 */
 #define GPIO_DDR_VTT_EN 203
+
+#define GPIO_PHY_EN		195
+#define GPIO_PHY_RESET		196
 
 /* pcf chip address enet_mux_s0 */
 #define PCF_ENET_MUX_ADDR	0x21
@@ -123,6 +127,13 @@ const struct omap_sysinfo sysinfo = {
 #define CM_IPU_TIMER8_CLKCTRL        (IPU_CM_CORE_AON + 0x70)
 #define CM_L4PER2_L4_PER2_CLKCTRL    (L4PER_CM_CORE + 0x0C)
 #define CM_L4PER3_L4_PER3_CLKCTRL    (L4PER_CM_CORE + 0x14)
+
+#define CM_L4PER_GPIO2_CLKCTRL       (L4PER_CM_CORE + 0x60)
+#define CM_L4PER_GPIO3_CLKCTRL       (L4PER_CM_CORE + 0x68)
+#define CM_L4PER_GPIO4_CLKCTRL       (L4PER_CM_CORE + 0x70)
+#define CM_L4PER_GPIO5_CLKCTRL       (L4PER_CM_CORE + 0x78)
+#define CM_L4PER_GPIO6_CLKCTRL       (L4PER_CM_CORE + 0x80)
+
 #define CM_L4PER_I2C1_CLKCTRL        (L4PER_CM_CORE + 0xA0)
 #define CM_L4PER_I2C2_CLKCTRL        (L4PER_CM_CORE + 0xA8)
 #define CM_L4PER_I2C3_CLKCTRL        (L4PER_CM_CORE + 0xB0)
@@ -1442,6 +1453,17 @@ extern u32 *const omap_si_rev;
 static void cpsw_control(int enabled)
 {
 	/* VTP can be added here */
+	gpio_request(GPIO_PHY_EN, "phy_en");
+	gpio_request(GPIO_PHY_RESET, "phy_reset");
+	printf("%s enabled=%d\n", __func__, enabled);	
+	if(enabled) {
+		gpio_direction_output(GPIO_PHY_EN, 1);
+		mdelay(15);	
+        	gpio_direction_output(GPIO_PHY_RESET, 1);
+		udelay(25);
+	}else {
+        	gpio_direction_output(GPIO_PHY_EN, 0);
+	}
 
 	return;
 }
@@ -1484,7 +1506,8 @@ int board_eth_init(bd_t *bis)
 	uint8_t mac_addr[6];
 	uint32_t mac_hi, mac_lo;
 	uint32_t ctrl_val;
-
+	
+	cpsw_control(1);
 	/* try reading mac address from efuse */
 	mac_lo = readl((*ctrl)->control_core_mac_id_0_lo);
 	mac_hi = readl((*ctrl)->control_core_mac_id_0_hi);

@@ -23,8 +23,11 @@ const struct pad_conf_entry core_padconf_array_essential[] = {
 	{MMC1_SDWP, (FSC | IEN | PTD | PEN | M14)}, /* MMC1_SDWP */
 #if defined(CONFIG_NOR)
 	/* NOR only pin-mux */
-	{GPMC_A0  , M0 | IDIS | PDIS}, /* nor.GPMC_A[0 ] */
-	{GPMC_A1  , M0 | IDIS | PDIS}, /* nor.GPMC_A[1 ] */
+	//{GPMC_A0  , M0 | IDIS | PDIS}, /* nor.GPMC_A[0 ] */
+	//{GPMC_A1  , M0 | IDIS | PDIS}, /* nor.GPMC_A[1 ] */
+	{GPMC_A0  , M14 | IEN | PTD | PEN}, /* nor.GPMC_A[0 ] */
+	{GPMC_A1  , M14 | IEN | PTD | PEN}, /* nor.GPMC_A[1 ] */
+
 	{GPMC_A2  , M0 | IDIS | PDIS}, /* nor.GPMC_A[2 ] */
 	{GPMC_A3  , M0 | IDIS | PDIS}, /* nor.GPMC_A[3 ] */
 	{GPMC_A4  , M0 | IDIS | PDIS}, /* nor.GPMC_A[4 ] */
@@ -34,13 +37,19 @@ const struct pad_conf_entry core_padconf_array_essential[] = {
 	{GPMC_A8  , M0 | IDIS | PDIS}, /* nor.GPMC_A[8 ] */
 	{GPMC_A9  , M0 | IDIS | PDIS}, /* nor.GPMC_A[9 ] */
 	{GPMC_A10 , M0 | IDIS | PDIS}, /* nor.GPMC_A[10] */
-	{GPMC_A11 , M0 | IDIS | PDIS}, /* nor.GPMC_A[11] */
-	{GPMC_A12 , M0 | IDIS | PDIS}, /* nor.GPMC_A[12] */
+	//{GPMC_A11 , M0 | IDIS | PDIS}, /* nor.GPMC_A[11] */
+	//{GPMC_A12 , M0 | IDIS | PDIS}, /* nor.GPMC_A[12] */
+	{GPMC_A11 , M14 | IEN | PTD | PEN}, /* nor.GPMC_A[11] */
+	{GPMC_A12 , M14 | IEN | PTD | PEN}, /* nor.GPMC_A[12] */
+
 	{GPMC_A13 , M0 | IDIS | PDIS}, /* nor.GPMC_A[13] */
 	{GPMC_A14 , M0 | IDIS | PDIS}, /* nor.GPMC_A[14] */
 	{GPMC_A15 , M0 | IDIS | PDIS}, /* nor.GPMC_A[15] */
 	{GPMC_A16 , M0 | IDIS | PDIS}, /* nor.GPMC_A[16] */
 	{GPMC_A17 , M0 | IDIS | PDIS}, /* nor.GPMC_A[17] */
+	{GPMC_A0, M14 | IEN | PTD | PEN},	/* gpmc_a0.vout3_d16 */
+	{GPMC_A1, M14 | IEN | PTD | PEN},	/* gpmc_a1.vout3_d17 */
+
 	{GPMC_A18 , M0 | IDIS | PDIS}, /* nor.GPMC_A[18] */
 	{GPMC_A19 , M0 | IDIS | PDIS}, /* nor.GPMC_A[19] */
 	{GPMC_A20 , M0 | IDIS | PDIS}, /* nor.GPMC_A[20] */
@@ -187,7 +196,10 @@ const struct pad_conf_entry dra74x_core_padconf_array[] = {
 	{GPMC_A8, (M3 | PIN_INPUT_PULLDOWN)},	/* gpmc_a8.vout3_hsync */
 	{GPMC_A9, (M3 | PIN_INPUT_PULLDOWN)},	/* gpmc_a9.vout3_vsync */
 	{GPMC_A10, (M3 | PIN_INPUT_PULLDOWN)},	/* gpmc_a10.vout3_de */
-	{GPMC_A11, (M14 | PIN_INPUT_PULLDOWN)},	/* gpmc_a11.gpio2_1 */
+	//{GPMC_A11, (M14 | PIN_INPUT_PULLDOWN)},	/* gpmc_a11.gpio2_1 */
+	{GPMC_A11, M14 | IEN | PTD | PEN},	/* gpmc_a11.gpio2_1 */
+	{GPMC_A12, M14 | IEN | PTD | PEN},
+
 	{GPMC_A13, (M1 | PIN_INPUT_PULLDOWN)},	/* gpmc_a13.qspi1_rtclk */
 	{GPMC_A14, (M1 | PIN_INPUT_PULLDOWN)},	/* gpmc_a14.qspi1_d3 */
 	{GPMC_A15, (M1 | PIN_INPUT_PULLDOWN)},	/* gpmc_a15.qspi1_d2 */
@@ -223,7 +235,9 @@ const struct pad_conf_entry dra74x_core_padconf_array[] = {
 	{VIN1A_D9, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d9.vin1a_d9 */
 	{VIN1A_D10, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d10.vin1a_d10 */
 	{VIN1A_D11, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d11.vin1a_d11 */
-	{VIN1A_D12, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d12.vin1a_d12 */
+	//{VIN1A_D12, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d12.vin1a_d12 */
+	{VIN2A_D12, (M14 | PIN_INPUT_PULLUP)},	/* vin2a_d12.rgmii1_txc */
+	
 	{VIN1A_D13, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d13.vin1a_d13 */
 	{VIN1A_D14, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d14.vin1a_d14 */
 	{VIN1A_D15, (M0 | PIN_INPUT | MANUAL_MODE)},	/* vin1a_d15.vin1a_d15 */
